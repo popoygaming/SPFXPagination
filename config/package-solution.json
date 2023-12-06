@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "wsa-coding-challenge-client-side-solution",
+    "id": "2b74e2eb-5110-4908-b1b5-069471f7b9b5",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "wsa-coding-challenge description"
+      },
+      "longDescription": {
+        "default": "wsa-coding-challenge description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "wsa-coding-challenge Feature",
+        "description": "The feature that activates elements of the wsa-coding-challenge solution.",
+        "id": "ab46fb71-d245-41ab-bd6b-6bffccfc8d98",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/wsa-coding-challenge.sppkg"
+  }
+}
