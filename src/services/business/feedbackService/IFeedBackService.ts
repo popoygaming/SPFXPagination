@@ -1,5 +1,5 @@
 import { FeedBackResult } from "./FeedBackResult";
 
 export interface IFeedBackService {
-    getFeedBack(feedbackListTitle: string): Promise<FeedBackResult>;
+    getFeedBack(feedbackListTitle: string, top: number, skip: number): Promise<FeedBackResult>;
 }

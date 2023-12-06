@@ -21,14 +21,14 @@ export class SPService implements ISPService {
     });
   }
 
-  public async getListItems(listTitle: string, selectProps: string, expandProps: string): Promise<any[]> {
+  public async getListItems(listTitle: string, selectProps: string, expandProps: string, top: number, skip: number): Promise<any[]> {
     return await this.sp.web.lists
       .getByTitle(listTitle)
       .items
       .select(selectProps)
       .expand(expandProps)
-      .top(20)
-      .skip(20)
+      .top(top)
+      .skip(skip)
       ()
       .then((response: any) => {
         return response;

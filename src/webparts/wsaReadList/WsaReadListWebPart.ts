@@ -18,6 +18,7 @@ import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from "@pnp/
 export interface IWsaReadListWebPartProps {
   description: string;
   itemsPerPage: string;
+  itemsPerLoad: string;
   listTitles: string;
 }
 
@@ -36,6 +37,7 @@ export default class WsaReadListWebPart extends BaseClientSideWebPart<IWsaReadLi
         userDisplayName: this.context.pageContext.user.displayName,
         wpContext: this.context,
         itemsPerPage: parseInt(this.properties.itemsPerPage),
+        itemsPerLoad: parseInt(this.properties.itemsPerLoad),
         listTitles: this.properties.listTitles === "" || this.properties.listTitles === undefined ? {} : JSON.parse(this.properties.listTitles),
       }
     );
@@ -124,6 +126,12 @@ export default class WsaReadListWebPart extends BaseClientSideWebPart<IWsaReadLi
                   min: 5,
                   max: 100,
                   step: 5
+                }),
+                PropertyPaneSlider('itemsPerLoad', {
+                  label: strings.NumberOfItemsPerLoadLabel,
+                  min: 20,
+                  max: 500,
+                  step: 20
                 }),
                 PropertyFieldCodeEditor('listTitles', {
                   label: strings.ListTitlesLabel,

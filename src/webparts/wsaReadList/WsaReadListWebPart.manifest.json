@@ -24,6 +24,7 @@
     "properties": {
       "description": "WSA Read List",
       "itemsPerPage": 10,
+      "itemsPerLoad": 20,
       "listTitles": "[{\"listTitle\":\"Application Feedback\"},{\"listTitle\":\"Support Feedback\"}]"
     }
   }]

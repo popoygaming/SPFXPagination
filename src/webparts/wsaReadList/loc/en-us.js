@@ -13,6 +13,7 @@ define([], function() {
     "AppOutlookEnvironment": "The app is running in Outlook",
     "UnknownEnvironment": "The app is running in an unknown environment",
     "NumberOfItemsPerPageLabel": "Number of items per page",
+    "NumberOfItemsPerLoadLabel": "Number of list items to be loaded initially and on Load More",
     "ListTitlesLabel": "Edit Feedback List Titles JSON"
   }
 });

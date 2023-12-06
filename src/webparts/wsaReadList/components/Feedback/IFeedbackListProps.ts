@@ -8,6 +8,7 @@ export interface IFeedbackListProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   itemsPerPage: number;
+  itemsPerLoad: number;
   listTitles: IFeedbackListTitle[];
   wpContext: WebPartContext;
 }

@@ -18,36 +18,36 @@ export class FeedBackService implements IFeedBackService {
         });
     }
     
-    public async getFeedBack(feedbackListTitle: string): Promise<FeedBackResult> {
+    public async getFeedBack(listTitle: string, top: number, skip: number): Promise<FeedBackResult> {
         const ret: IResult = { data: [], isPending: true, error: null };
         try {
             await this.sleep(2000); // to test shimmer effect
 
             const response = await this._SPService.getListItems(
-                feedbackListTitle,
+                listTitle,
                 "ID,ApplicationName,BusinessOwner/FirstName,BusinessOwner/LastName,FeedBackMessage,Created,SubmittedBy/FirstName,SubmittedBy/LastName", 
-                "BusinessOwner,SubmittedBy"
+                "BusinessOwner,SubmittedBy", top, skip
                 );
             
-                if(response !== null || response !== undefined){
-                    const feedbacks: IFeedBack[] = this.convertToFeedback(response);
+                if(response !== null && response !== undefined){
+                    const feedbacks: IFeedBack[] = this.convertToFeedback(response, listTitle);
                     ret.data = feedbacks;
                 }
             
             ret.isPending = false;
-            LogsHelper.logInformation(`Successfully fetch list items of list ${feedbackListTitle}`);
+            LogsHelper.logInformation(`Successfully fetch list items of list ${listTitle}`);
         } 
         catch (error) {
             ret.isPending = false;
             ret.data = null;
             ret.error = error;
-            LogsHelper.logError(`getFeedBacks: error encountered: ${error}`);
+            LogsHelper.logError(`getFeedBack: error encountered: ${error}`);
         }
         return ret;
     }
 
-    private convertToFeedback(results: any[]): IFeedBack[] {
-        return results?.map(r => {
+    private convertToFeedback(results: any[], listTitle: string): IFeedBack[] {
+        return results.map(r => {
             return {
                 id: r["ID"],
                 applicationName: r[FEEDBACK_FIELDNAME_APPNAME],
@@ -55,6 +55,7 @@ export class FeedBackService implements IFeedBackService {
                 feedbackMessage: r[FEEDBACK_FIELDNAME_MESSAGE],
                 submittedBy: `${r[FEEDBACK_FIELDNAME_SUBMITBY]?.FirstName} ${r[FEEDBACK_FIELDNAME_SUBMITBY]?.LastName}`,
                 submittedDate: r[FEEDBACK_FIELDNAME_SUBMITDATE],
+                listtitle: listTitle
             };
         });
     }
