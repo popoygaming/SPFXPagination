@@ -13,10 +13,12 @@ import * as strings from 'WsaReadListWebPartStrings';
 import FeedbackList from './components/Feedback/FeedbackList';
 import { IFeedbackListProps } from './components/Feedback/IFeedbackListProps';
 import PnPTelemetry from "@pnp/telemetry-js";
+import { PropertyFieldCodeEditor, PropertyFieldCodeEditorLanguages } from "@pnp/spfx-property-controls/lib/PropertyFieldCodeEditor";
 
 export interface IWsaReadListWebPartProps {
   description: string;
-  itemsPerPage: number;
+  itemsPerPage: string;
+  listTitles: string;
 }
 
 export default class WsaReadListWebPart extends BaseClientSideWebPart<IWsaReadListWebPartProps> {
@@ -33,7 +35,8 @@ export default class WsaReadListWebPart extends BaseClientSideWebPart<IWsaReadLi
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         wpContext: this.context,
-        itemsPerPage: this.properties.itemsPerPage
+        itemsPerPage: parseInt(this.properties.itemsPerPage),
+        listTitles: this.properties.listTitles === "" || this.properties.listTitles === undefined ? {} : JSON.parse(this.properties.listTitles),
       }
     );
 
@@ -121,6 +124,21 @@ export default class WsaReadListWebPart extends BaseClientSideWebPart<IWsaReadLi
                   min: 5,
                   max: 100,
                   step: 5
+                }),
+                PropertyFieldCodeEditor('listTitles', {
+                  label: strings.ListTitlesLabel,
+                  panelTitle: strings.ListTitlesLabel,
+                  initialValue: this.properties.listTitles,
+                  onPropertyChange: this.onPropertyPaneFieldChanged,
+                  properties: this.properties,
+                  disabled: false,
+                  key: "codeEditorFieldId",
+                  language: PropertyFieldCodeEditorLanguages.JSON,
+                  options: {
+                    wrap: true,
+                    fontSize: 20,
+                    // more options
+                  },
                 }),
               ]
             }

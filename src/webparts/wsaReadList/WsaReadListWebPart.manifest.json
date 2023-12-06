@@ -23,7 +23,8 @@
     "officeFabricIconFontName": "Page",
     "properties": {
       "description": "WSA Read List",
-      "itemsPerPage": "10"
+      "itemsPerPage": 10,
+      "listTitles": "[{\"listTitle\":\"Application Feedback\"},{\"listTitle\":\"Support Feedback\"}]"
     }
   }]
 }

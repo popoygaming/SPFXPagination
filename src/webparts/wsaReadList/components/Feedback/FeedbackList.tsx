@@ -1,20 +1,22 @@
 import * as React from 'react';
 // import styles from './FeedbackList.module.scss';
 import type { IFeedbackListProps } from './IFeedbackListProps';
-// import { escape } from '@microsoft/sp-lodash-subset';
 import { IFeedBackService } from '../../../../services/business/feedbackService/IFeedBackService';
 import { FeedBackService } from '../../../../services/business/feedbackService/FeedBackService';
-import LogsHelper from '../../../../helpers/LogsHelper';
 import { IFeedbackListState } from './IFeedbackListState';
-import { DetailsList } from '@fluentui/react/lib/components/DetailsList/DetailsList';
 import { DetailsListLayoutMode } from '@fluentui/react/lib/components/DetailsList/DetailsList.types';
 import { FeedBackListColumns } from '../../../../common/DetailsListColumns';
 import { Pagination } from '@pnp/spfx-controls-react/lib/controls/pagination/Pagination';
+import { DefaultButton } from '@fluentui/react/lib/components/Button/DefaultButton/DefaultButton';
+import { ShimmeredDetailsList } from '@fluentui/react/lib/components/DetailsList/ShimmeredDetailsList';
 
 export default class FeedbackList extends React.Component<IFeedbackListProps, IFeedbackListState> {
 
+  private feedbackService: IFeedBackService;
+
   constructor(props: IFeedbackListProps){
     super(props);
+    this.feedbackService = this.props.wpContext.serviceScope.consume(FeedBackService.serviceKey);
     this.state = {
       feedbacks: [],
       isLoading: true,
@@ -23,45 +25,51 @@ export default class FeedbackList extends React.Component<IFeedbackListProps, IF
   }
 
   async componentDidMount(): Promise<void> {
-    this.setState({isLoading: true});
-    const feedbackService: IFeedBackService = this.props.wpContext.serviceScope.consume(FeedBackService.serviceKey);
-    const feedbacks = await feedbackService.getFeedBack("Application Feedback");
-    this.setState({feedbacks: feedbacks.data, paginatedItems: feedbacks.data.slice(0, this.props.itemsPerPage), isLoading: feedbacks.isPending});
-    
-    LogsHelper.logTable(feedbacks.data);
+    this.fetchFeedbackList();
   }
 
-  private _getPage(page: number) : void {
-    // round a number up to the next largest integer.
-    const roundupPage = Math.ceil(page) - 1;
-    const itemsPerPage = this.props.itemsPerPage;
-    this.setState({ paginatedItems: this.state.feedbacks.slice(roundupPage * itemsPerPage, (roundupPage * itemsPerPage) + itemsPerPage) });
+  private fetchFeedbackList(): void {
+    this.props.listTitles.map(async (o)=>{
+      const response = await this.feedbackService.getFeedBack(o.listTitle);
+      this.setState({feedbacks: [...this.state.feedbacks, ...response.data]});     
+      this.setState({ paginatedItems: this.state.feedbacks.slice(0, this.props.itemsPerPage)});
+    });
+  };
+
+  private getPage(page: number) : void {
+    const roundupPage = Math.ceil(page);
+    const pageSize = this.props.itemsPerPage;
+    const startIndex = (roundupPage - 1) * pageSize;
+    this.setState({ paginatedItems: this.state.feedbacks.slice(startIndex, startIndex + pageSize) });
+  }
+
+  private onLoadMoreClick = async (): Promise<void> =>{
+    // const feedbacks = await this.feedbackService.getFeedBack("Application Feedback");
+    // this.setState({feedbacks: [...this.state.feedbacks, ...feedbacks.data] });
   }
 
   public render(): React.ReactElement<IFeedbackListProps> {
   
-    const { isLoading, paginatedItems, feedbacks } = this.state;
+    const { paginatedItems, feedbacks } = this.state;
     const { itemsPerPage } = this.props;
 
     return (
       <>
-        {
-          isLoading && <div>Loading</div>
-        }
-        <DetailsList
+        <ShimmeredDetailsList
             compact={true}
-            items={paginatedItems}
+            items={paginatedItems || []}
             columns={FeedBackListColumns}
             setKey="set"
             layoutMode={DetailsListLayoutMode.justified}
             selectionPreservedOnEmptyClick={true}
-        />
+            enableShimmer={paginatedItems?.length === 0}
+          />
         <Pagination
               currentPage={1}
-              totalPages={(feedbacks?.length / itemsPerPage) - 1}
-              onChange={(page) => this._getPage(page)}
-              limiter={3}
+              totalPages={(feedbacks?.length / itemsPerPage)}
+              onChange={(page) => this.getPage(page)}
             />
+        <DefaultButton text="Load More" onClick={this.onLoadMoreClick} allowDisabledFocus />
       </>
     );
   }

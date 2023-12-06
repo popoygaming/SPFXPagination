@@ -1,7 +1,7 @@
 define([], function() {
   return {
     "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "BasicGroupName": "General Properties",
     "DescriptionFieldLabel": "Description Field",
     "AppLocalEnvironmentSharePoint": "The app is running on your local environment as SharePoint web part",
     "AppLocalEnvironmentTeams": "The app is running on your local environment as Microsoft Teams app",
@@ -12,6 +12,7 @@ define([], function() {
     "AppOfficeEnvironment": "The app is running in office.com",
     "AppOutlookEnvironment": "The app is running in Outlook",
     "UnknownEnvironment": "The app is running in an unknown environment",
-    "NumberOfItemsPerPageLabel": "Number of items per page"
+    "NumberOfItemsPerPageLabel": "Number of items per page",
+    "ListTitlesLabel": "Edit Feedback List Titles JSON"
   }
 });

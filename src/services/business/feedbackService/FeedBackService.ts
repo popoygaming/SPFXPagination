@@ -19,17 +19,21 @@ export class FeedBackService implements IFeedBackService {
     }
     
     public async getFeedBack(feedbackListTitle: string): Promise<FeedBackResult> {
-        const ret: IResult = { data: null, isPending: true, error: null };
+        const ret: IResult = { data: [], isPending: true, error: null };
         try {
             await this.sleep(2000);
 
             const response = await this._SPService.getListItems(
                 feedbackListTitle,
                 "ID,ApplicationName,BusinessOwner/FirstName,BusinessOwner/LastName,FeedBackMessage,Created,SubmittedBy/FirstName,SubmittedBy/LastName", 
-                "BusinessOwner,SubmittedBy");
-            const feedbacks: IFeedBack[] = this.convertToFeedback(response);
+                "BusinessOwner,SubmittedBy"
+                );
             
-            ret.data = feedbacks;
+                if(response !== null || response !== undefined){
+                    const feedbacks: IFeedBack[] = this.convertToFeedback(response);
+                    ret.data = feedbacks;
+                }
+            
             ret.isPending = false;
             LogsHelper.logInformation(`Successfully fetch list items of list ${feedbackListTitle}`);
         } 
@@ -43,7 +47,7 @@ export class FeedBackService implements IFeedBackService {
     }
 
     private convertToFeedback(results: any[]): IFeedBack[] {
-        return results.map(r => {
+        return results?.map(r => {
             return {
                 id: r["ID"],
                 applicationName: r[FEEDBACK_FIELDNAME_APPNAME],

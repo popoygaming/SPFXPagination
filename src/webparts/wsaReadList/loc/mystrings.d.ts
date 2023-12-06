@@ -12,6 +12,7 @@ declare interface IWsaReadListWebPartStrings {
   AppOutlookEnvironment: string;
   UnknownEnvironment: string;
   NumberOfItemsPerPageLabel: string;
+  ListTitlesLabel: string;
 }
 
 declare module 'WsaReadListWebPartStrings' {

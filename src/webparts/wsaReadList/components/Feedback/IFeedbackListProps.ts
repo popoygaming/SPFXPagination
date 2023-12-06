@@ -1,4 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { IFeedbackListTitle } from "../../../../models/IFeedbackListTitle";
 
 export interface IFeedbackListProps {
   description: string;
@@ -7,5 +8,6 @@ export interface IFeedbackListProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   itemsPerPage: number;
+  listTitles: IFeedbackListTitle[];
   wpContext: WebPartContext;
 }
