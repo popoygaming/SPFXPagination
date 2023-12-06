@@ -21,7 +21,7 @@ export class FeedBackService implements IFeedBackService {
     public async getFeedBack(feedbackListTitle: string): Promise<FeedBackResult> {
         const ret: IResult = { data: [], isPending: true, error: null };
         try {
-            await this.sleep(2000);
+            await this.sleep(2000); // to test shimmer effect
 
             const response = await this._SPService.getListItems(
                 feedbackListTitle,

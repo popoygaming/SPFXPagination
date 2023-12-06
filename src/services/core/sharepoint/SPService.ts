@@ -27,6 +27,8 @@ export class SPService implements ISPService {
       .items
       .select(selectProps)
       .expand(expandProps)
+      .top(20)
+      .skip(20)
       ()
       .then((response: any) => {
         return response;

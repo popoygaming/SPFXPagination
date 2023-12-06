@@ -34,7 +34,7 @@ export default class FeedbackList extends React.Component<IFeedbackListProps, IF
       this.setState({feedbacks: [...this.state.feedbacks, ...response.data]});     
       this.setState({ paginatedItems: this.state.feedbacks.slice(0, this.props.itemsPerPage)});
     });
-  };
+  }
 
   private getPage(page: number) : void {
     const roundupPage = Math.ceil(page);
@@ -49,7 +49,6 @@ export default class FeedbackList extends React.Component<IFeedbackListProps, IF
   }
 
   public render(): React.ReactElement<IFeedbackListProps> {
-  
     const { paginatedItems, feedbacks } = this.state;
     const { itemsPerPage } = this.props;
 
