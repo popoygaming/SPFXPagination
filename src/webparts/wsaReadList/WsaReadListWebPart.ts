@@ -10,8 +10,8 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'WsaReadListWebPartStrings';
-import FeedbackList from './components/FeedbackList';
-import { IFeedbackListProps } from './components/IFeedbackListProps';
+import FeedbackList from './components/Feedback/FeedbackList';
+import { IFeedbackListProps } from './components/Feedback/IFeedbackListProps';
 import PnPTelemetry from "@pnp/telemetry-js";
 
 export interface IWsaReadListWebPartProps {
@@ -118,7 +118,7 @@ export default class WsaReadListWebPart extends BaseClientSideWebPart<IWsaReadLi
                 }),
                 PropertyPaneSlider('itemsPerPage', {
                   label: strings.NumberOfItemsPerPageLabel,
-                  min: 10,
+                  min: 5,
                   max: 100,
                   step: 5
                 }),

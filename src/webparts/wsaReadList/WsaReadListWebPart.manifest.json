@@ -23,7 +23,7 @@
     "officeFabricIconFontName": "Page",
     "properties": {
       "description": "WSA Read List",
-      "itemsPerPage": "20"
+      "itemsPerPage": "10"
     }
   }]
 }

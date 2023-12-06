@@ -19,8 +19,10 @@ export class FeedBackService implements IFeedBackService {
     }
     
     public async getFeedBack(feedbackListTitle: string): Promise<FeedBackResult> {
-        let ret: IResult = { data: null, isPending: true, error: null };
+        const ret: IResult = { data: null, isPending: true, error: null };
         try {
+            await this.sleep(2000);
+
             const response = await this._SPService.getListItems(
                 feedbackListTitle,
                 "ID,ApplicationName,BusinessOwner/FirstName,BusinessOwner/LastName,FeedBackMessage,Created,SubmittedBy/FirstName,SubmittedBy/LastName", 
@@ -52,4 +54,11 @@ export class FeedBackService implements IFeedBackService {
             };
         });
     }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    private sleep = async (milliseconds: number) => {
+        await new Promise(resolve => {
+            return setTimeout(resolve, milliseconds)
+        });
+    };
 }
