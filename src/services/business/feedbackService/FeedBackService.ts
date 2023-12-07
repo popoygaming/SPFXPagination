@@ -4,7 +4,6 @@ import { ISPService } from "../../core/sharepoint/ISPService";
 import { SPService } from "../../core/sharepoint/SPService";
 import { IFeedBack } from "../../../models/IFeedBack";
 import LogsHelper from "../../../helpers/LogsHelper";
-import { FeedBackResult } from "./FeedBackResult";
 import { FEEDBACK_FIELDNAME_APPNAME, FEEDBACK_FIELDNAME_BUSINESSOWNER, FEEDBACK_FIELDNAME_MESSAGE, FEEDBACK_FIELDNAME_SUBMITBY, FEEDBACK_FIELDNAME_SUBMITDATE } from "../../../common/Constants";
 
 export class FeedBackService implements IFeedBackService {
@@ -18,8 +17,8 @@ export class FeedBackService implements IFeedBackService {
         });
     }
     
-    public async getFeedBack(listTitle: string, top: number, skip: number): Promise<FeedBackResult> {
-        const ret: IResult = { data: [], isPending: true, error: null };
+    public async getFeedBack(listTitle: string, top: number, skip: number): Promise<IFeedBack[]> {
+        const ret: IFeedBack[] = [];
         try {
             await this.sleep(2000); // to test shimmer effect
 
@@ -31,16 +30,12 @@ export class FeedBackService implements IFeedBackService {
             
                 if(response !== null && response !== undefined){
                     const feedbacks: IFeedBack[] = this.convertToFeedback(response, listTitle);
-                    ret.data = feedbacks;
+                    return feedbacks;
                 }
             
-            ret.isPending = false;
             LogsHelper.logInformation(`Successfully fetch list items of list ${listTitle}`);
         } 
         catch (error) {
-            ret.isPending = false;
-            ret.data = null;
-            ret.error = error;
             LogsHelper.logError(`getFeedBack: error encountered: ${error}`);
         }
         return ret;
@@ -55,7 +50,7 @@ export class FeedBackService implements IFeedBackService {
                 feedbackMessage: r[FEEDBACK_FIELDNAME_MESSAGE],
                 submittedBy: `${r[FEEDBACK_FIELDNAME_SUBMITBY]?.FirstName} ${r[FEEDBACK_FIELDNAME_SUBMITBY]?.LastName}`,
                 submittedDate: r[FEEDBACK_FIELDNAME_SUBMITDATE],
-                listtitle: listTitle
+                listTitle: listTitle
             };
         });
     }

@@ -29,14 +29,14 @@ export default class FeedbackList extends React.Component<IFeedbackListProps, IF
 
   async componentDidMount(): Promise<void> {
     // initial load
-    this.props.listTitles.map(async (o, i)=>{
-      const response = await this.feedbackService.getFeedBack(o.listTitle, this.state.top, 0);
-      this.setState({feedbacks: [...this.state.feedbacks, ...response.data]});     
-      this.setState({ paginatedItems: this.state.feedbacks.slice(0, this.props.itemsPerPage)});
-
-      // end of data calls
-      this.setState({isLoading: i >= (this.props.listTitles.length - 1)});
-    });
+    await Promise.all(
+      this.props.listTitles.map(async (o, i)=>{
+        const response = await this.feedbackService.getFeedBack(o.listTitle, this.state.top, 0);
+        this.setState({feedbacks: [...this.state.feedbacks, ...response]});     
+        this.setState({ paginatedItems: this.state.feedbacks.slice(0, this.props.itemsPerPage)});
+      })
+    );
+    this.setState({isLoading: false});
   }
 
   private getPage(page: number) : void {
@@ -48,25 +48,25 @@ export default class FeedbackList extends React.Component<IFeedbackListProps, IF
 
   private onLoadMoreClick = async (): Promise<void> =>{
     this.setState({isLoading: true});
-    this.props.listTitles.map(async (o, i)=>{
-      const listItems = this.state.feedbacks.filter((obj) => obj.listtitle === o.listTitle);
-      const skip = Math.max(...listItems.map(o => o.id)); /// get the highest item id in the list items we already fetched
-
-      if(skip !== undefined || skip !== null){
-        const response = await this.feedbackService.getFeedBack(o.listTitle, this.state.top, skip);
-        this.setState({feedbacks: [...this.state.feedbacks, ...response.data]});
-      }
-      else{
-        LogsHelper.logWarning(`Unable to load more items for list ${o.listTitle}`);
-      }
-
-      // end of data calls
-      this.setState({isLoading: i >= (this.props.listTitles.length - 1)});
-    });
+    await Promise.all(
+      this.props.listTitles.map(async (o, i)=>{
+        const listItems = this.state.feedbacks.filter((obj) => obj.listTitle === o.listTitle);
+        const skip = Math.max(...listItems.map(o => o.id)); /// get the highest item id in the list items we already fetched
+  
+        if(skip !== undefined && skip !== null){
+          const response = await this.feedbackService.getFeedBack(o.listTitle, this.state.top, skip);
+          this.setState({feedbacks: [...this.state.feedbacks, ...response]});
+        }
+        else{
+          LogsHelper.logWarning(`Unable to load more items for list ${o.listTitle}`);
+        }
+      })
+    );
+    this.setState({isLoading: false});
   }
 
   public render(): React.ReactElement<IFeedbackListProps> {
-    const { paginatedItems, feedbacks } = this.state;
+    const { paginatedItems, feedbacks, isLoading } = this.state;
     const { itemsPerPage } = this.props;
 
     return (
@@ -78,12 +78,10 @@ export default class FeedbackList extends React.Component<IFeedbackListProps, IF
             setKey="set"
             layoutMode={DetailsListLayoutMode.justified}
             selectionPreservedOnEmptyClick={true}
-            enableShimmer={paginatedItems.length === 0}
-            // enableShimmer={isLoading}
+            enableShimmer={isLoading}
           />
         {
-          feedbacks !== null && feedbacks.length > 0 && 
-          // !isLoading && 
+          !isLoading && 
             <Stack enableScopedSelectors horizontal horizontalAlign="center" tokens={{childrenGap: 20}}>
                 <Pagination
                   currentPage={1}

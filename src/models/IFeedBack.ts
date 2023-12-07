@@ -6,5 +6,5 @@ export interface IFeedBack {
     submittedBy: string;
     submittedDate: Date;
 
-    listtitle: string; // to be used to identify which list it came from
+    listTitle: string; // to be used to identify which list it came from
 }
