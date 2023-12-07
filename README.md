@@ -1,8 +1,8 @@
-# wsa-coding-challenge
+# SPFX webpart displaying list items from 2 lists with pagination
 
 ## Summary
 
-A SharePoint Framework web part using PnP.js to retrieve, merge and display a list of items from 2 SharePoint Online list.
+A SharePoint Framework web part using PnP.js to retrieve, merge and display list of items from 2 SharePoint Online list.
 
 
 ## Used SharePoint Framework Version
