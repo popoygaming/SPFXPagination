@@ -2,9 +2,11 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+A SharePoint Framework web part using PnP.js to retrieve, merge and display a list of items from 2 SharePoint Online list.
 
-[picture of the solution in action, if possible]
+## Preview
+![Alt text](preview_Webpart.png)
+![Alt text](preview_PropertyPane-1.png)
 
 ## Used SharePoint Framework Version
 
@@ -19,7 +21,23 @@ Short summary on functionality and used technologies.
 
 ## Prerequisites
 
-> Any special pre-requisites?
+> Create two (2) SPO List in the site collection where the webpart will be installed/tested with details below
+List Titles: 
+  - Application Feedback
+  - Support Feedback
+Columns
+  - ApplicationName - Single line of text
+  - BusinessOwner - Person or Group
+  - FeedBackMessage - Single line of text
+  - SubmittedBy - Person of Group
+
+## Used libraries and controls:
+ - PnP.js for SPO data interaction
+ - PnP pagination control for pagination
+ - Detailed List Shimmer to display list items and show shimmer while fetching
+ - To read SPO List dynamically, I used  PropertyFieldCodeEditor to configure in the property pane the list titles the webpart will read/get the items.
+ - I used the number slider for the configuration of items per page in the webpart property pane
+
 
 ## Solution
 
