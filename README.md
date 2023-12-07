@@ -6,7 +6,7 @@ A SharePoint Framework web part using PnP.js to retrieve, merge and display a li
 
 ## Preview
 ![Alt text](preview_Webpart.png)
-![Alt text](preview_PropertyPane-1.png)
+![Alt text](preview_PropertyPane.png)
 
 ## Used SharePoint Framework Version
 
