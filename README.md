@@ -4,9 +4,6 @@
 
 A SharePoint Framework web part using PnP.js to retrieve, merge and display a list of items from 2 SharePoint Online list.
 
-## Preview
-![Alt text](preview_Webpart.png)
-![Alt text](preview_PropertyPane.png)
 
 ## Used SharePoint Framework Version
 
@@ -68,6 +65,10 @@ Create two (2) SPO List in the site collection where the webpart will be install
   - **gulp serve**
 
 > Include any additional steps as needed.
+
+## Preview
+![Alt text](preview_Webpart.png)
+![Alt text](preview_PropertyPane.png)
 
 ## Features
 
