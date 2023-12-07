@@ -22,10 +22,11 @@ A SharePoint Framework web part using PnP.js to retrieve, merge and display a li
 ## Prerequisites
 
 > Create two (2) SPO List in the site collection where the webpart will be installed/tested with details below
-List Titles: 
+>> List Titles: 
   - Application Feedback
   - Support Feedback
-Columns
+  
+>> Columns
   - ApplicationName - Single line of text
   - BusinessOwner - Person or Group
   - FeedBackMessage - Single line of text
